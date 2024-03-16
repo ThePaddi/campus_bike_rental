@@ -12,4 +12,7 @@ import com.cj.entity.User;
  * @date 2024/3/16 15:55
  */
 public interface UserService extends IService<User> {
+    User getUserByUsername(String name);
+
+    boolean insertUser(User user);
 }
