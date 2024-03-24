@@ -1,27 +1,39 @@
 package com.cj.realm;
 
+import com.cj.entity.Menu;
 import com.cj.entity.User;
+import com.cj.service.RoleService;
 import com.cj.service.UserService;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Component
 public class UserRealm extends AuthorizingRealm {
     @Autowired
     private UserService userService;
+
     //授权
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        return null;
+        String username = (String) principalCollection.getPrimaryPrincipal();
+        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+        authorizationInfo.addRoles(userService.getRolesByUsername(username));
+        List<Integer> menus = new ArrayList<>();
+        authorizationInfo.addStringPermissions(userService.getPermsByUsername(username));
+        return authorizationInfo;
     }
 
     //认证

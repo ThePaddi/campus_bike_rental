@@ -2,20 +2,17 @@ package com.cj.config;
 
 import com.cj.realm.UserRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * @author 疾风亦有归途
- * @version v1.0
- * @project local_cuisine
- * @package com.wj.config
- * @company 千锋教育
- * @date 2024/3/3 12:58
- */
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+
 @Configuration
 public class ShiroConfig {
     @Autowired
@@ -48,8 +45,40 @@ public class ShiroConfig {
         //设置不认证可以访问的资源
         definition.addPathDefinition("/api/user/login","anon");
         definition.addPathDefinition("/api/user/register","anon");
+        definition.addPathDefinition("/css/**","anon");
+        definition.addPathDefinition("/imgs/**","anon");
+        definition.addPathDefinition("/js/**","anon");
+        definition.addPathDefinition("/js/**","anon");
         //设置需要进行登录认证的拦截范围
         definition.addPathDefinition("/**","authc");
         return definition;
     }
+
+    /*@Bean
+    public ShiroFilterFactoryBean shiroFilter(DefaultWebSecurityManager securityManager) {
+        // 定义shiroFactoryBean
+        ShiroFilterFactoryBean shiroFilterFactoryBean=new ShiroFilterFactoryBean();
+        // 设置自定义的securityManager
+        shiroFilterFactoryBean.setSecurityManager(securityManager);
+        // 设置默认登录的url，身份认证失败会访问该url
+        shiroFilterFactoryBean.setLoginUrl("/login");
+        // 设置成功之后要跳转的链接
+        shiroFilterFactoryBean.setSuccessUrl("/success");
+        // 设置未授权界面，权限认证失败会访问该url
+        shiroFilterFactoryBean.setUnauthorizedUrl("/unauthorized");
+        // LinkedHashMap是有序的，进行顺序拦截器配置
+        Map<String,String> filterChainMap = new LinkedHashMap<>();
+        // 配置可以匿名访问的地址，可以根据实际情况自己添加，放行一些静态资源等，anon表示放行
+        filterChainMap.put("/css/**", "anon");
+        filterChainMap.put("/imgs/**", "anon");
+        filterChainMap.put("/js/**", "anon");
+        // 登录url 放行
+        filterChainMap.put("/login", "anon");
+        // “/user/admin” 开头的需要身份认证，authc表示要身份认证
+        // 配置logout过滤器
+        filterChainMap.put("/logout", "logout");
+        // 设置shiroFilterFactoryBean的FilterChainDefinitionMap
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainMap);
+        return shiroFilterFactoryBean;
+    }*/
 }

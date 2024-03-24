@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -101,5 +102,7 @@ public class Menu implements Serializable {
      */
     private Integer keepAlive;
 
-
+    // 下级列表
+    @TableField(exist = false)
+    private List<Menu> children;
 }

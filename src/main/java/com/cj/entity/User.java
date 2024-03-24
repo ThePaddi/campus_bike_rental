@@ -1,6 +1,8 @@
 package com.cj.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @author 疾风亦有归途
@@ -26,11 +29,13 @@ public class User {
     private String name;
     private String username;
     private String password;
-    private Byte identity;
-    private Byte gender;
+    private Integer identity;
+    private Integer gender;
     private String phone;
     private String image;
-    private LocalDateTime created_time;
-    private LocalDateTime updated_time;
-    private Byte status;
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime create_time;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime update_time;
+    private Integer status;
 }
